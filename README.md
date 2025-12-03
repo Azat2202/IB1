@@ -51,20 +51,16 @@ Authorization: Bearer <JWT>
 ```json
 [
   {
-    "iataCode": "KUF",
-    "icaoCode": "UWWW",
-    "icaoClassification": "4E",
-    "altitude": "n53°30’04’’",
-    "latitude": "w050°09’14’’",
-    "uprisingMeters": "145",
-    "magneticDeclination": "w12°"
+    "header": "Test Note",
+    "text": "This is a test note"
   }
+
 ]
 ```
 
 ---
 
-## 3. `POST /api/data` — Добавление нового аэропорта
+## 3. `POST /api/data` — Добавление новой заметки
 
 **Описание:**
 Добавляет новую сущность `Note` в список. Доступ только для аутентифицированных пользователей.
@@ -78,27 +74,18 @@ Authorization: Bearer <JWT>
 
 ```json
 {
-  "iataCode": "KUF",
-  "icaoCode": "UWWW",
-  "icaoClassification": "4E",
-  "altitude": "n53°30’04’’",
-  "latitude": "w050°09’14’’",
-  "uprisingMeters": "145",
-  "magneticDeclination": "w12°"
+  "header": "Test Note",
+  "text": "This is a test note"
 }
+
 ```
 
 **Response (JSON):**
 
 ```json
 {
-  "iataCode": "KUF",
-  "icaoCode": "UWWW",
-  "icaoClassification": "4E",
-  "altitude": "n53°30’04’’",
-  "latitude": "w050°09’14’’",
-  "uprisingMeters": "145",
-  "magneticDeclination": "w12°"
+  "header": "Test Note",
+  "text": "This is a test note"
 }
 ```
 
