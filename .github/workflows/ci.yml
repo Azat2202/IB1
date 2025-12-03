@@ -1,0 +1,52 @@
+name: CI Pipeline with Security Scanners
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "**" ]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build with Maven
+        run: mvn -B clean package --file pom.xml
+
+      # ---------- SAST ----------
+      - name: Run SpotBugs
+        run: mvn com.github.spotbugs:spotbugs-maven-plugin:4.8.3.0:spotbugs
+
+      - name: Upload SpotBugs report
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-report
+          path: target/spotbugsXml.xml
+
+      # ---------- SCA ----------
+      - name: Run OWASP Dependency-Check
+        run: mvn org.owasp:dependency-check-maven:check -Dformat=ALL
+
+      - name: Upload Dependency-Check report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: target/dependency-check-report.html

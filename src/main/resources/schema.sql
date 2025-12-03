@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS "NOTES" (
+    "id" BIGINT AUTO_INCREMENT PRIMARY KEY,
+    "header" TEXT,
+    "note_text" TEXT
+);
